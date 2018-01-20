@@ -94,7 +94,6 @@ void rainbow() {
   if(light<=25  {
     lightd=1;
   }
-  }
   r += ri;
   g += gi;
   b += bi;
