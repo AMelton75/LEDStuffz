@@ -3,7 +3,7 @@
 #define DATAPIN 4
 #define CLOCKPIN 5
 
-const int STRIP_LENGTH = 242;
+const int STRIP_LENGTH = 240;
 
 int r = 0;
 int g = 0;
