@@ -20,7 +20,10 @@ int LSDBreath = 0;
 bool LSDup = true;
 
 int snake = 0;
-int state = 1;
+int state = 0;
+
+int ballX = 2;
+int ballSpeed = 2;
 Adafruit_DotStar strip = Adafruit_DotStar(STRIP_LENGTH, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
 
 int current = millis();
@@ -37,7 +40,7 @@ void loop() {
   current = millis();
   if (current - reset >= 30000) {
     state++;
-    if (state >= 4) {
+    if (state >= 5) {
       state = 0;
     }
     reset = millis();
@@ -56,6 +59,9 @@ void loop() {
     LSDup = true;
 
     snake = 0;
+
+    ballX = 2;
+    ballSpeed = 2;
   }
   if (state == 0) {
     wierdRainbow();
@@ -69,22 +75,22 @@ void loop() {
   if (state == 3) {
     rainbowCool();
   }
+  if (state == 4){
+    ball();  
+  }
 
 
-  Serial.println(r);
-  Serial.println(g);
-  Serial.println(b);
 }
 
 void wierdRainbow() {
   for (int i = 0; i < STRIP_LENGTH / 3; i++) {
-    strip.setPixelColor((i * 3), r, g, b);
+    strip.setPixelColor((i * 3), g, r, b);
   }
   for (int j = 0; j < STRIP_LENGTH / 3; j++) {
-    strip.setPixelColor((j * 3 + 1), b, r, g);
+    strip.setPixelColor((j * 3 + 1), b, g, r);
   }
   for (int j = 0; j < STRIP_LENGTH / 3; j++) {
-    strip.setPixelColor((j * 3 + 2), g, b, r);
+    strip.setPixelColor((j * 3 + 2), r, b, g);
   }
   strip.show();
   if (r >= 50) {
@@ -109,13 +115,13 @@ void wierdRainbow() {
 
 void rainbowSnake() {
   for (int i = 0; i < STRIP_LENGTH / 3; i++) {
-    strip.setPixelColor((i * 3), r, g, b);
+    strip.setPixelColor((i * 3), g, r, b);
   }
   for (int j = 0; j < STRIP_LENGTH / 3; j++) {
-    strip.setPixelColor((j * 3 + 1), r, g, b);
+    strip.setPixelColor((j * 3 + 1), g, r, b);
   }
   for (int j = 0; j < STRIP_LENGTH / 3; j++) {
-    strip.setPixelColor((j * 3 + 2), r, g, b);
+    strip.setPixelColor((j * 3 + 2), g, r, b);
   }
   for (int i = 0; i < 50; i++) {
     strip.setPixelColor((snake - i), i + 5, i + 5, i + 5);
@@ -148,7 +154,7 @@ void rainbowSnake() {
 
 void LSD() {
   for (int i = 0; i < STRIP_LENGTH; i++) {
-    strip.setPixelColor((i), r, g, b);
+    strip.setPixelColor((i), g, r, b);
     r = random(0, LSDBreath);
     g = random(0, LSDBreath);
     b = random(0, LSDBreath);
@@ -170,7 +176,7 @@ void LSD() {
 
 void rainbowCool() {
   for (int i = 0; i < STRIP_LENGTH; i++) {
-    strip.setPixelColor((i), r * 25 / light, g * 25 / light, b * 25 / light);
+    strip.setPixelColor((i), g * 25 / light, r * 25 / light, b * 25 / light);
   }
   strip.show();
   if (r >= 50) {
@@ -199,6 +205,18 @@ void rainbowCool() {
   b += bi;
   light += lightd;
   delay(20);
+}
+
+void ball(){
+  for(int i = 0; i < STRIP_LENGTH; i++){
+    strip.setPixelColor((i), 0, 25, 10); 
+  }
+  if(ballX >= STRIP_LENGTH || ballX <= 0){
+    ballSpeed *= -1;  
+  }
+  ballX += ballSpeed;
+  strip.setPixelColor((ballX), 50, 50, 50);
+  strip.show();  
 }
 
 
