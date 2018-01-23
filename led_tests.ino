@@ -20,7 +20,7 @@ int LSDBreath = 0;
 bool LSDup = true;
 
 int snake = 0;
-int state = 0;
+int state = 4;
 
 int ballX = 2;
 int ballSpeed = 2;
@@ -208,13 +208,13 @@ void rainbowCool() {
 }
 
 void ball(){
-  for(int i = 0; i < STRIP_LENGTH; i++){
-    strip.setPixelColor((i), 0, 25, 10); 
-  }
   if(ballX >= STRIP_LENGTH || ballX <= 0){
     ballSpeed *= -1;  
   }
   ballX += ballSpeed;
+  for(int i = 0; i < STRIP_LENGTH; i++){
+    strip.setPixelColor((i), 0, 20 + ballX / 10, 5 + ballX / 10); 
+  }
   strip.setPixelColor((ballX), 50, 50, 50);
   strip.show();  
 }
