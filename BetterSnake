@@ -1,0 +1,20 @@
+void BetterSnake(){
+  int rstart=0;
+  int gstart=80;
+  int bstart=160;
+  
+  for(int i = 0; i < 80; i++){
+    strip.setPixelColor(((rstart+i)%STRIP_LENGTH),0,50,0);
+  }
+  for(int i = 0; i < 80; i++){
+    strip.setPixelColor(((gstart+i)%STRIP_LENGTH),50,0,0);
+  }
+  for(int i = 0; i < 80; i++){
+    strip.setPixelColor(((bstart+i)%STRIP_LENGTH),0,0,50);
+  }
+  
+rstart++;
+gstart++;
+bstart++;
+strip.show();
+}
