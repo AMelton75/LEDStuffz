@@ -20,6 +20,8 @@ int rstart=0;
 int gstart=80;
 int bstart=160;
 
+int why;
+
 int LSDBreath = 0;
 bool LSDup = true;
 
@@ -243,7 +245,18 @@ bstart++;
 strip.show();
 }
 
-
-
-
-
+void whynot(){
+why++;
+if((why%3)==1){
+for(int i = 0; i < STRIP_LENGTH; i++){
+    strip.setPixelColor((i),0,25,0);
+} }else if((why%3)==2){
+  for(int i = 0; i < STRIP_LENGTH; i++){
+    strip.setPixelColor((i),25,0,0);
+  } }else if((why%3)==0){
+  for(int i = 0; i < STRIP_LENGTH; i++){
+    strip.setPixelColor((i),0,0,25);
+  }
+}
+strip.show();
+}
