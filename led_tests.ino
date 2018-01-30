@@ -26,7 +26,7 @@ int LSDBreath = 0;
 bool LSDup = true;
 
 int snake = 0;
-int state = 5;
+int state = 7;
 
 int ballX = 2;
 int ballSpeed = 2;
@@ -46,8 +46,8 @@ void loop() {
   current = millis();
   if (current - reset >= 30000) {
     state++;
-    if (state >= 6) {
-      state = 0;
+    if (state >= 8) {
+      state = 5;
     }
     reset = millis();
     r = 0;
@@ -60,6 +60,10 @@ void loop() {
 
     light = 25;
     lightd = 1;
+
+    rstart=0;
+    gstart=80;
+    bstart=160;
 
     LSDBreath = 0;
     LSDup = true;
@@ -87,8 +91,12 @@ void loop() {
   if (state == 5){
     BetterSnake();  
   }
-
-
+  if (state == 6){
+    pink();  
+  }
+  if (state == 7){
+    moveingrainbow();  
+  } 
 }
 
 void wierdRainbow() {
@@ -218,11 +226,11 @@ void rainbowCool() {
 
 void ball(){
   if(ballX >= STRIP_LENGTH || ballX <= 0){
-    ballSpeed *= -1;  
+    ballSpeed = ballSpeed*-1;  
   }
   ballX += ballSpeed;
   for(int i = 0; i < STRIP_LENGTH; i++){
-    strip.setPixelColor((i), 0, 20 + ballX / 10, 5 + ballX / 10); 
+    strip.setPixelColor((i), 0, 20 + ballX / 10, 5 + ballX / 20); 
   }
   strip.setPixelColor((ballX), 50, 50, 50);  
 }
@@ -249,14 +257,46 @@ void whynot(){
 why++;
 if((why%3)==1){
 for(int i = 0; i < STRIP_LENGTH; i++){
-    strip.setPixelColor((i),0,25,0);
+    strip.setPixelColor((i),5,25,15);
 } }else if((why%3)==2){
   for(int i = 0; i < STRIP_LENGTH; i++){
-    strip.setPixelColor((i),25,0,0);
+    strip.setPixelColor((i),25,15,5);
   } }else if((why%3)==0){
   for(int i = 0; i < STRIP_LENGTH; i++){
-    strip.setPixelColor((i),0,0,25);
+    strip.setPixelColor((i),15,5,25);
   }
 }
 strip.show();
 }
+
+void pink(){
+if (light >= 70 ) {
+    lightd = -1;
+  }
+  if (light <= 30 ) {
+    lightd = 1;
+  }
+  light += lightd;
+  for (int i = 0; i < STRIP_LENGTH; i++) {
+    strip.setPixelColor((i), 1, 40 * 50 / light, 24 * 50 / light);
+  }
+
+strip.show();
+}
+
+void moveingrainbow(){
+
+for (int i = 0; i < 80; i++) {
+    strip.setPixelColor(((i+rstart)%240),i,80-i,0);
+  }
+for (int i = 0; i < 80; i++) {
+    strip.setPixelColor(((i+rstart+80)%240),80-i,0,i);
+  }
+for (int i = 0; i < 80; i++) {
+    strip.setPixelColor(((i+rstart+160)%240),0,i,80-i);
+  }
+rstart++;
+
+strip.show();
+}
+
