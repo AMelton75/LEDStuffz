@@ -44,7 +44,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   current = millis();
-  if (current - reset >= 30000) {
+  if (current - reset >= 3000000) {
     state++;
     if (state >= 8) {
       state = 5;
@@ -287,16 +287,15 @@ strip.show();
 void moveingrainbow(){
 
 for (int i = 0; i < 80; i++) {
-    strip.setPixelColor(((i+rstart)%240),i,80-i,0);
+    strip.setPixelColor(((i+rstart)%240),i/2,(80-i)/2,0);
   }
 for (int i = 0; i < 80; i++) {
-    strip.setPixelColor(((i+rstart+80)%240),80-i,0,i);
+    strip.setPixelColor(((i+rstart+80)%240),(80-i)/2,0,i/2);
   }
 for (int i = 0; i < 80; i++) {
-    strip.setPixelColor(((i+rstart+160)%240),0,i,80-i);
+    strip.setPixelColor(((i+rstart+160)%240),0,i/2,(80-i)/2);
   }
 rstart++;
-
 strip.show();
 }
 
