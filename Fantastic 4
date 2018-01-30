@@ -46,7 +46,7 @@ void loop() {
   current = millis();
   if (current - reset >= 30000) {
     state++;
-    if (state >= 4) {
+    if (state >= 6) {
       state = 0;
     }
     reset = millis();
@@ -84,7 +84,7 @@ void loop() {
   if (state == 14){
     ball();  
   }
-  if (state == 1){
+  if (state == 1|state == 4){
     BetterSnake();  
   }
  if (state == 10){
@@ -96,7 +96,9 @@ void loop() {
    if (state == 3){
     christmas();  
   }
-
+  if (state == 5){
+    pink();  
+  }
 }
 
 void wierdRainbow() {
@@ -303,6 +305,20 @@ else if(aid==3){
 }
     
 } 
+
+strip.show();
+}
+void pink(){
+if (light >= 100 ) {
+    lightd = -1;
+  }
+  if (light <= 50 ) {
+    lightd = 1;
+  }
+  light += lightd;
+  for (int i = 0; i < STRIP_LENGTH; i++) {
+    strip.setPixelColor((i), 1, 40 * 50 / light, 24 * 50 / light);
+  }
 
 strip.show();
 }
