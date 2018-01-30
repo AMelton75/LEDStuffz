@@ -16,11 +16,15 @@ int bi;
 int light = 25;
 int lightd = 1;
 
+int rstart=0;
+int gstart=80;
+int bstart=160;
+
 int LSDBreath = 0;
 bool LSDup = true;
 
 int snake = 0;
-int state = 4;
+int state = 5;
 
 int ballX = 2;
 int ballSpeed = 2;
@@ -40,7 +44,7 @@ void loop() {
   current = millis();
   if (current - reset >= 30000) {
     state++;
-    if (state >= 5) {
+    if (state >= 6) {
       state = 0;
     }
     reset = millis();
@@ -77,6 +81,9 @@ void loop() {
   }
   if (state == 4){
     ball();  
+  }
+  if (state == 5){
+    BetterSnake();  
   }
 
 
@@ -215,8 +222,25 @@ void ball(){
   for(int i = 0; i < STRIP_LENGTH; i++){
     strip.setPixelColor((i), 0, 20 + ballX / 10, 5 + ballX / 10); 
   }
-  strip.setPixelColor((ballX), 50, 50, 50);
-  strip.show();  
+  strip.setPixelColor((ballX), 50, 50, 50);  
+}
+
+void BetterSnake(){
+
+  for(int i = 1; i < 81; i++){
+    strip.setPixelColor(((rstart+i)%STRIP_LENGTH),0,50,0);
+  }
+  for(int i = 1; i < 81; i++){
+    strip.setPixelColor(((gstart+i)%STRIP_LENGTH),50,0,0);
+  }
+  for(int i = 1; i < 81; i++){
+    strip.setPixelColor(((bstart+i)%STRIP_LENGTH),0,0,50);
+  }
+  
+rstart++;
+gstart++;
+bstart++;
+strip.show();
 }
 
 
