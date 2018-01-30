@@ -1,0 +1,14 @@
+void pink(){
+if (light >= 100 ) {
+    lightd = -1;
+  }
+  if (light <= 50 ) {
+    lightd = 1;
+  }
+  light += lightd;
+  for (int i = 0; i < STRIP_LENGTH; i++) {
+    strip.setPixelColor((i), 1, 40 * 50 / light, 24 * 50 / light);
+  }
+
+strip.show();
+}
