@@ -24,6 +24,7 @@ void setup() {
   strip.begin();
   strip.show();
   Serial.begin(9600);
+  start=0;
 }
 
 void loop() {
@@ -107,7 +108,7 @@ void blue() {
       strip.setPixelColor(i, 0, 60, 20);
     }
   }
-  if (current - reset >= 165000) {
+  if (current - reset >= 165000&current - reset<180000) {
     for (int i = 0; i < STRIP_LENGTH / 3; i++) {
       strip.setPixelColor(((i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
       strip.setPixelColor(((i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (80 - i) / 2, i / 2);
@@ -168,7 +169,7 @@ void red() {
       strip.setPixelColor(i, 60, 20, 0);
     }
   }
-  if (current - reset >= 165000) {
+  if (current - reset >= 165000&current - reset<180000) {
     for (int i = 0; i < STRIP_LENGTH / 3; i++) {
       strip.setPixelColor(((i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
       strip.setPixelColor(((i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (80 - i) / 2, i / 2);
