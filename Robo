@@ -60,6 +60,7 @@ void blue() {
   if (start == STRIP_LENGTH) {
     start = 0;
   }
+  start++;
   if (current - reset <= 15000) {
     for (int i = 0; i < STRIP_LENGTH / 3; i++) {
       strip.setPixelColor(((i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
@@ -98,6 +99,7 @@ void red() {
   if (start == STRIP_LENGTH) {
     start = 0;
   }
+  start++;
   if (current - reset <= 15000) {
     for (int i = 0; i < STRIP_LENGTH / 3; i++) {
       strip.setPixelColor(((i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
