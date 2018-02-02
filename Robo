@@ -71,7 +71,7 @@ void blue() {
     g = 1;
     b = 24;
   }
-  if (current - reset > 15000) {
+  if (current - reset > 15000&current - reset < 165000) {
     times++;
     if (times <= STRIP_LENGTH) {
       strip.setPixelColor((start % STRIP_LENGTH), 50, 0, 0);
@@ -92,6 +92,28 @@ void blue() {
       strip.setPixelColor(((start + STRIP_LENGTH * 11 / 12) % STRIP_LENGTH), r, g, b);
     }
   }
+  if (current - reset >= 120000 & current - reset < 120500) {
+    for (int i = 0; i < STRIP_LENGTH; i++) {
+      strip.setPixelColor(i, 0, 60, 20);
+    }
+  }
+  if (current - reset >= 121000 & current - reset < 121500) {
+    for (int i = 0; i < STRIP_LENGTH; i++) {
+      strip.setPixelColor(i, 0, 60, 20);
+    }
+  }
+  if (current - reset >= 122000 & current - reset < 122500) {
+    for (int i = 0; i < STRIP_LENGTH; i++) {
+      strip.setPixelColor(i, 0, 60, 20);
+    }
+  }
+  if (current - reset >= 165000) {
+    for (int i = 0; i < STRIP_LENGTH / 3; i++) {
+      strip.setPixelColor(((i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
+      strip.setPixelColor(((i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (80 - i) / 2, i / 2);
+      strip.setPixelColor(((i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (80 - i) / 2);
+    }
+  }
   strip.show();
 }
 
@@ -110,7 +132,7 @@ void red() {
     g = 1;
     b = 24;
   }
-  if (current - reset > 15000) {
+  if (current - reset > 15000&current - reset < 165000) {
     times++;
     if (times <= STRIP_LENGTH) {
       strip.setPixelColor((start % STRIP_LENGTH), 50, 0, 0);
@@ -129,6 +151,28 @@ void red() {
       strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), r, g, b);
       strip.setPixelColor(((start + STRIP_LENGTH * 3 / 4) % STRIP_LENGTH), 50, 0, 0);
       strip.setPixelColor(((start + STRIP_LENGTH * 11 / 12) % STRIP_LENGTH), r, g, b);
+    }
+  }
+    if (current - reset >= 120000 & current - reset < 120500) {
+    for (int i = 0; i < STRIP_LENGTH; i++) {
+      strip.setPixelColor(i, 60, 20, 0);
+    }
+  }
+  if (current - reset >= 121000 & current - reset < 121500) {
+    for (int i = 0; i < STRIP_LENGTH; i++) {
+      strip.setPixelColor(i, 60, 20, 0);
+    }
+  }
+  if (current - reset >= 122000 & current - reset < 122500) {
+    for (int i = 0; i < STRIP_LENGTH; i++) {
+      strip.setPixelColor(i, 60, 20, 0);
+    }
+  }
+  if (current - reset >= 165000) {
+    for (int i = 0; i < STRIP_LENGTH / 3; i++) {
+      strip.setPixelColor(((i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
+      strip.setPixelColor(((i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (80 - i) / 2, i / 2);
+      strip.setPixelColor(((i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (80 - i) / 2);
     }
   }
   strip.show();
