@@ -1,0 +1,133 @@
+#include <Adafruit_DotStar.h>
+#include <SPI.h>
+#define DATAPIN 6
+#define CLOCKPIN 7
+
+const int STRIP_LENGTH = 240;
+
+Adafruit_DotStar strip = Adafruit_DotStar(STRIP_LENGTH, DATAPIN, CLOCKPIN, DOTSTAR_BGR);
+
+int start;
+int state = 1;
+int times;
+int cube;
+
+int r;
+int g;
+int b;
+
+int current = millis();
+int reset = millis();
+
+void setup() {
+  // put your setup code here, to run once:
+  strip.begin();
+  strip.show();
+  Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  current = millis();
+  Serial.read();
+  if (Serial.read() == 1) {
+    state = 1;
+    int reset = millis();
+  }
+  if (Serial.read() == 2) {
+    state = 2;
+    int reset = millis();
+  }
+  if (Serial.read() == 3 & cube != 1) {
+    r = 35;
+    g = 35;
+    b = 0;
+  }
+  if (Serial.read() == 3 & cube == 1) {
+    r = 40;
+    g = 1;
+    b = 24;
+  }
+  if (state == 1) {
+    blue();
+  }
+  if (state == 2) {
+    red();
+  }
+}
+
+void blue() {
+  if (start == STRIP_LENGTH) {
+    start = 0;
+  }
+  if (current - reset <= 15000) {
+    for (int i = 0; i < STRIP_LENGTH / 3; i++) {
+      strip.setPixelColor(((i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
+      strip.setPixelColor(((i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (80 - i) / 2, i / 2);
+      strip.setPixelColor(((i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (80 - i) / 2);
+    }
+    r = 40;
+    g = 1;
+    b = 24;
+  }
+  if (current - reset > 15000) {
+    times++;
+    if (times <= STRIP_LENGTH) {
+      strip.setPixelColor((start % STRIP_LENGTH), 50, 0, 0);
+      strip.setPixelColor(((start + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, 50, 0);
+      strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), 0, 0, 50);
+    }
+    if (times > STRIP_LENGTH & times <= STRIP_LENGTH * 5 / 3) {
+      strip.setPixelColor(((start + 160) % STRIP_LENGTH), 0, 0, 50);
+    }
+    if (times > STRIP_LENGTH * 5 / 3) {
+      strip.setPixelColor(((start) % STRIP_LENGTH), 0, 0, 50);
+      strip.setPixelColor(((start + STRIP_LENGTH / 6) % STRIP_LENGTH), r, g, b);
+      strip.setPixelColor(((start + STRIP_LENGTH / 4) % STRIP_LENGTH), 0, 0, 50);
+      strip.setPixelColor(((start + STRIP_LENGTH * 5 / 12) % STRIP_LENGTH), r, g, b);
+      strip.setPixelColor(((start + STRIP_LENGTH / 2) % STRIP_LENGTH), 0, 0, 50);
+      strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), r, g, b);
+      strip.setPixelColor(((start + STRIP_LENGTH * 3 / 4) % STRIP_LENGTH), 0, 0, 50);
+      strip.setPixelColor(((start + STRIP_LENGTH * 11 / 12) % STRIP_LENGTH), r, g, b);
+    }
+  }
+  strip.show();
+}
+
+void red() {
+  if (start == STRIP_LENGTH) {
+    start = 0;
+  }
+  if (current - reset <= 15000) {
+    for (int i = 0; i < STRIP_LENGTH / 3; i++) {
+      strip.setPixelColor(((i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
+      strip.setPixelColor(((i + 80) % STRIP_LENGTH), 0, (80 - i) / 2, i / 2);
+      strip.setPixelColor(((i + 160) % STRIP_LENGTH), i / 2, 0, (80 - i) / 2);
+    }
+    r = 40;
+    g = 1;
+    b = 24;
+  }
+  if (current - reset > 15000) {
+    times++;
+    if (times <= STRIP_LENGTH) {
+      strip.setPixelColor((start % STRIP_LENGTH), 50, 0, 0);
+      strip.setPixelColor(((start + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, 50, 0);
+      strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), 0, 0, 50);
+    }
+    if (times > STRIP_LENGTH & times <= STRIP_LENGTH * 5 / 3) {
+      strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), 50, 0, 0);
+    }
+    if (times > STRIP_LENGTH * 5 / 3) {
+      strip.setPixelColor(((start) % STRIP_LENGTH), 50, 0, 0);
+      strip.setPixelColor(((start + STRIP_LENGTH / 6) % STRIP_LENGTH), r, g, b);
+      strip.setPixelColor(((start + STRIP_LENGTH / 4) % STRIP_LENGTH), 50, 0, 0);
+      strip.setPixelColor(((start + STRIP_LENGTH * 5 / 12) % STRIP_LENGTH), r, g, b);
+      strip.setPixelColor(((start + STRIP_LENGTH / 2) % STRIP_LENGTH), 50, 0, 0);
+      strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), r, g, b);
+      strip.setPixelColor(((start + STRIP_LENGTH * 3 / 4) % STRIP_LENGTH), 50, 0, 0);
+      strip.setPixelColor(((start + STRIP_LENGTH * 11 / 12) % STRIP_LENGTH), r, g, b);
+    }
+  }
+  strip.show();
+}
