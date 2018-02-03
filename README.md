@@ -1,6 +1,6 @@
 <html>
 <head>
-<script src="html/strobe.js"/>
+<script src="html/strobe.js"></script>
 <style>
 body:hover {
 strobe();
