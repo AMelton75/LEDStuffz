@@ -1,4 +1,4 @@
-void BetterSnake()  {
+void Snake()  {
 int SNAKE_LENGTH = 5;
 for (int i = 1; i < STRIP_LENGTH; i++) {
 if (i%10==0) {
