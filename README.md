@@ -1,5 +1,5 @@
 <html>
-<body style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/6/6e/Rotating_Square.gif');background-size:cover;">
+<body style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/6/6e/Rotating_Square.gif');">
 <h1>LEDStuffz</h1>
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/A_blink_program_through_LED.gif"/>
 <br>
