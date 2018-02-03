@@ -1,0 +1,15 @@
+void BetterSnake()  {
+int SNAKE_LENGTH = 5;
+for (int i = 1; i < STRIP_LENGTH; i++) {
+if (i%10==0) {
+strip.setPixelColor(i,25,10,0);
+}
+}
+  for(int i = 1; i < SNAKE_LENGTH; i++){
+    strip.setPixelColor(i,25,25,25);
+    if (i%10==0) {
+    SNAKE_LENGTH++;
+    }
+  }
+strip.show();
+}
