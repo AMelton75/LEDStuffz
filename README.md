@@ -1,6 +1,12 @@
-<html>
+tml>
 <head>
-<script src="html\strobe.js"></script>
+<script>
+function strobe() {
+var x = document.getElementsByTagName("BODY")[0];
+x.BackColor = black;
+await sleep(200);
+x.BackColor = white;
+}</script>
 <style>
 body:hover {
 strobe();
@@ -9,7 +15,7 @@ strobe();
 </head>
 <body>
 <h1>LEDStuffz</h1>
-<a href="https://www.plannedparenthood.org/learn/stds-hiv-safer-sex/herpes/living-with-herpes"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/A_blink_program_through_LED.gif"/></a>
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/A_blink_program_through_LED.gif"/>
 <br>
 <i>This project is completely useless. Go away.</i>
 <br>
