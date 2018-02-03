@@ -1,6 +1,6 @@
 <html>
 <body>
-<img style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/5/5d/Disappearing_dots.gif');"/>
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Disappearing_dots.gif"/>
 <h1>LEDStuffz</h1>
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/A_blink_program_through_LED.gif"/>
 <br>
