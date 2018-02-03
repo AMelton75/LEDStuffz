@@ -1,5 +1,5 @@
 tml>
-<head>
+<body>
 <script>
 function strobe() {
 var x = document.getElementsByTagName("BODY")[0];
@@ -12,8 +12,6 @@ body:hover {
 strobe();
 }
 </style>
-</head>
-<body>
 <h1>LEDStuffz</h1>
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/A_blink_program_through_LED.gif"/>
 <br>
