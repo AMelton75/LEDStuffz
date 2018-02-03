@@ -1,7 +1,7 @@
 <html>
 <body>
 <h1>LEDStuffz</h1>
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/A_blink_program_through_LED.gif"/>
+<a href="https://www.plannedparenthood.org/learn/stds-hiv-safer-sex/herpes/living-with-herpes"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ac/A_blink_program_through_LED.gif"/></a>
 <i>This project is completely useless. Go away.</i>
 <br>
 <br>
