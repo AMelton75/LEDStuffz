@@ -8,14 +8,15 @@ const int STRIP_LENGTH = 208;
 Adafruit_DotStar strip = Adafruit_DotStar(STRIP_LENGTH, DATAPIN, CLOCKPIN, DOTSTAR_BGR);
 
 int start;
-int state=1;
+int state;
 int times;
-int cube=0;
-int climb;
+int cube = 0;
+int climb = 0;
 int r;
 int g;
 int b;
-int cat=0;
+char receivedChar;
+boolean newData = false;
 
 int current = millis() / 100;
 int reset = millis() / 100;
@@ -26,53 +27,71 @@ void setup() {
   strip.show();
   Serial.begin(9600);
   start = 0;
+  r=40;
+  g=1;
+  b=24;
+  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   current = millis() / 100;
-  if (Serial.available()>0) {
-    cat=Serial.read();
-    if (cat) == 1) {
-      state = 1;
-      int reset = millis() / 100;
-      start = 0;
-    }else if (cat) == 2) {
-      state = 2;
-      int reset = millis() / 100;
-      start = 0;
-    }else if (cat == 3 & cube != 1) {
-      r = 35;
-      g = 35;
-      b = 0;
-      cube = 1;
-    }else if (cat == 3 & cube == 1) {
+  recvOneChar();
+  showNewData();
+  if(state==1){
+    blue();
+  }
+  if(state==2){
+    red();
+  }
+}
+
+void recvOneChar() {
+  if (Serial.available() > 0) {
+    receivedChar = Serial.read();
+    newData = true;
+  }
+}
+
+void showNewData() {
+  if (newData == true) {
+    if (receivedChar == '3' && cube == 1) {
       r = 40;
       g = 1;
       b = 24;
       cube = 0;
-    }else if (cat == 4 & climb != 1) {
-      r = 5;
-      g = 40;
-      b = 5;
-      climb = 1;
-    }else if (cat == 4 & climb == 1) {
+    }else if (receivedChar == '3' && cube == 0) {
+      r = 35;
+      g = 25;
+      b = 0;
+      cube = 1;
+      climb = 0;
+    }
+    if (receivedChar == '4' && climb == 1) {
       r = 40;
       g = 1;
       b = 24;
       climb = 0;
-    }else{
-    state=0;
+    }else if (receivedChar == '4' && climb == 0) {
+      r = 0;
+      g = 60;
+      b = 0;
+      climb = 1;
+      cube = 0;
     }
+    if (receivedChar == '1') {
+      state=1;
+      reset=millis()/100;
+    }
+    if (receivedChar == '2') {
+      state=2;
+      reset=millis()/100;
+    }
+    Serial.println(receivedChar);
+    Serial.println(r);
+    newData = false;
+    receivedChar = 0;
   }
-  if (state == 1) {
-    blue();
-  }
-  if (state == 2) {
-    red();
-  }
-  Serial.println(current - reset);
-  Serial.println(cat);
 }
 
 void blue() {
@@ -86,9 +105,6 @@ void blue() {
       strip.setPixelColor(((start + i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (STRIP_LENGTH / 3 - i) / 2, i / 2);
       strip.setPixelColor(((start + i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (STRIP_LENGTH / 3 - i) / 2);
     }
-    r = 40;
-    g = 1;
-    b = 24;
     start++;
   }
   if ((current - reset) > 150 & (current - reset) < 1650) {
@@ -156,9 +172,6 @@ void red() {
       strip.setPixelColor(((start + i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (STRIP_LENGTH / 3 - i) / 2, i / 2);
       strip.setPixelColor(((start + i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (STRIP_LENGTH / 3 - i) / 2);
     }
-    r = 40;
-    g = 1;
-    b = 24;
     start++;
   }
   if ((current - reset) > 150 & (current - reset) < 1650) {
@@ -184,17 +197,17 @@ void red() {
   }
   if (current - reset >= 1200 & current - reset < 1205) {
     for (int i = 0; i < STRIP_LENGTH; i++) {
-      strip.setPixelColor(i, 60, 20, 0);
+      strip.setPixelColor(i, 60, 5, 0);
     }
   }
   if (current - reset >= 1210 & current - reset < 1215) {
     for (int i = 0; i < STRIP_LENGTH; i++) {
-      strip.setPixelColor(i, 60, 20, 0);
+      strip.setPixelColor(i, 60, 5, 0);
     }
   }
   if (current - reset >= 1220 & current - reset < 1225) {
     for (int i = 0; i < STRIP_LENGTH; i++) {
-      strip.setPixelColor(i, 60, 20, 0);
+      strip.setPixelColor(i, 60, 5, 0);
     }
   }
   if (current - reset >= 1650 & current - reset < 1800) {
