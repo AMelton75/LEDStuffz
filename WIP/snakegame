@@ -1,27 +1,54 @@
-void Snake()  {
+void newsnake()  {
 int SNAKE_LENGTH = 5;
 int SNAKE_HEAD = 6;
 
-while (SNAKE_HEAD != STRIP_LENGTH) { //Make all pixels behind snake dark
-for (int i = 1; i < SNAKE_HEAD-SNAKE_LENGTH; i++) {
-strip.setPixelColor(i,0,0,0);
-}
+while (SNAKE_HEAD-SNAKE_LENGTH < STRIP_LENGTH) {
 
-for (int i = SNAKE_HEAD; i <= STRIP_LENGTH; i++) { //Make every 10 pixels in front of snake power-ups 
+for (int i = SNAKE_HEAD-SNAKE_LENGTH; i <= STRIP_LENGTH; i++) { //Make every 10 pixels in front of snake power-ups 
 if (i%10==0) {
 strip.setPixelColor(i,25,10,0);
 }
 }
 
   for(int i = SNAKE_HEAD-SNAKE_LENGTH; i <= SNAKE_HEAD; i++){ //Draw snake 
-    strip.setPixelColor(i,25,25,25);
+    strip.setPixelColor(i,(SNAKE_LENGTH%STRIP_LENGTH)/10,SNAKE_LENGTH,SNAKE_HEAD%10);
   }
+
+for (int i = 1; i < SNAKE_HEAD-SNAKE_LENGTH; i++) { //Make all pixels behind snake dark
+strip.setPixelColor(i,0,0,0);
+}
   
       if (SNAKE_HEAD%10==0) { //Increase snake length by 1 if head is on power-up
     SNAKE_LENGTH++;
     }
   
   SNAKE_HEAD++;
+strip.show();
+}
+while (SNAKE_HEAD-SNAKE_LENGTH >= 0-SNAKE_LENGTH) {
+
+for (int i = SNAKE_HEAD-SNAKE_LENGTH; i > 0; i--) { //Make every 10 pixels in front of snake power-ups 
+if (i%10==0) {
+strip.setPixelColor(i,25,10,0);
+}
+}
+
+  for(int i = SNAKE_HEAD; i >= SNAKE_HEAD-SNAKE_LENGTH; i--){ //Draw snake 
+    strip.setPixelColor(i,(SNAKE_LENGTH%STRIP_LENGTH)/10,SNAKE_LENGTH,SNAKE_HEAD%10);
+  }
+
+  for (int i = STRIP_LENGTH; i > SNAKE_HEAD; i--) { //Make all pixels behind snake dark
+strip.setPixelColor(i,0,0,0);
+}
+
+  
+      if (SNAKE_HEAD%10==0) { //Increase snake length by 1 if head is on power-up
+    SNAKE_LENGTH++;
+    }
+  
+  SNAKE_HEAD--;
+
+  strip.setPixelColor(0,0,0,0);
 strip.show();
 }
 }
