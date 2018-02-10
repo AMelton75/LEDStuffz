@@ -8,7 +8,7 @@ const int STRIP_LENGTH = 208;
 Adafruit_DotStar strip = Adafruit_DotStar(STRIP_LENGTH, DATAPIN, CLOCKPIN, DOTSTAR_BGR);
 
 int start;
-int state;
+int state = -1;
 int times;
 int cube = 0;
 int climb = 0;
@@ -27,10 +27,10 @@ void setup() {
   strip.show();
   Serial.begin(9600);
   start = 0;
-  r=40;
-  g=1;
-  b=24;
-  
+  r = 40;
+  g = 1;
+  b = 24;
+
 }
 
 void loop() {
@@ -38,11 +38,12 @@ void loop() {
   current = millis() / 100;
   recvOneChar();
   showNewData();
-  if(state==1){
+  if (state == 1) {
     blue();
-  }
-  if(state==2){
+  } else if (state == 2) {
     red();
+  } else if (state == 0) {
+    blue();
   }
 }
 
@@ -60,7 +61,7 @@ void showNewData() {
       g = 1;
       b = 24;
       cube = 0;
-    }else if (receivedChar == '3' && cube == 0) {
+    } else if (receivedChar == '3' && cube == 0) {
       r = 35;
       g = 25;
       b = 0;
@@ -72,7 +73,7 @@ void showNewData() {
       g = 1;
       b = 24;
       climb = 0;
-    }else if (receivedChar == '4' && climb == 0) {
+    } else if (receivedChar == '4' && climb == 0) {
       r = 0;
       g = 60;
       b = 0;
@@ -80,12 +81,17 @@ void showNewData() {
       cube = 0;
     }
     if (receivedChar == '1') {
-      state=1;
-      reset=millis()/100;
+      state = 1;
+      reset = millis() / 100;
+      start = 0;
     }
     if (receivedChar == '2') {
-      state=2;
-      reset=millis()/100;
+      state = 2;
+      reset = millis() / 100;
+      start = 0;
+    }
+    if (receivedChar == '0') {
+      state = 0;
     }
     Serial.println(receivedChar);
     Serial.println(r);
@@ -99,65 +105,70 @@ void blue() {
     start = 0;
   }
   start++;
-  if (current - reset <= 150) {
-    for (int i = 0; i < STRIP_LENGTH / 3; i++) {
-      strip.setPixelColor(((start + i) % STRIP_LENGTH), (STRIP_LENGTH / 3 - i) / 2, i / 2, 0);
-      strip.setPixelColor(((start + i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (STRIP_LENGTH / 3 - i) / 2, i / 2);
-      strip.setPixelColor(((start + i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (STRIP_LENGTH / 3 - i) / 2);
-    }
-    start++;
-  }
-  if ((current - reset) > 150 & (current - reset) < 1650) {
-    times++;
-    if (times <= STRIP_LENGTH) {
-      strip.setPixelColor((start % STRIP_LENGTH), 50, 0, 0);
-      strip.setPixelColor(((start + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, 50, 0);
-      strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), 0, 0, 50);
-    }
-    if (times > STRIP_LENGTH & times <= STRIP_LENGTH * 5 / 3) {
-      strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), 0, 0, 50);
-    }
-    if (times > STRIP_LENGTH * 5 / 3) {
-      strip.setPixelColor(((start) % STRIP_LENGTH), 0, 0, 50);
-      strip.setPixelColor(((start + STRIP_LENGTH / 6) % STRIP_LENGTH), r, g, b);
-      strip.setPixelColor(((start + STRIP_LENGTH / 4) % STRIP_LENGTH), 0, 0, 50);
-      strip.setPixelColor(((start + STRIP_LENGTH * 5 / 12) % STRIP_LENGTH), r, g, b);
-      strip.setPixelColor(((start + STRIP_LENGTH / 2) % STRIP_LENGTH), 0, 0, 50);
-      strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), r, g, b);
-      strip.setPixelColor(((start + STRIP_LENGTH * 3 / 4) % STRIP_LENGTH), 0, 0, 50);
-      strip.setPixelColor(((start + STRIP_LENGTH * 11 / 12) % STRIP_LENGTH), r, g, b);
-
-    }
-  }
-  if (current - reset >= 1200 & current - reset < 1205) {
-    for (int i = 0; i < STRIP_LENGTH; i++) {
-      strip.setPixelColor(i, 0, 60, 20);
-    }
-  }
-  if (current - reset >= 1210 & current - reset < 1215) {
-    for (int i = 0; i < STRIP_LENGTH; i++) {
-      strip.setPixelColor(i, 0, 60, 20);
-    }
-  }
-  if (current - reset >= 1220 & current - reset < 1225) {
-    for (int i = 0; i < STRIP_LENGTH; i++) {
-      strip.setPixelColor(i, 0, 60, 20);
-    }
-  }
-  if (current - reset >= 1650 & current - reset < 1800) {
-    for (int i = 0; i < STRIP_LENGTH / 3; i++) {
-      strip.setPixelColor(((start + i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
-      strip.setPixelColor(((start + i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (80 - i) / 2, i / 2);
-      strip.setPixelColor(((start + i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (80 - i) / 2);
-    }
-    start++;
-  }
-  if (current - reset >= 1800) {
-    for (int i = 0; i < STRIP_LENGTH; i++) {
+  if (state == 0) {
+    for (int i = 0; i < STRIP_LENGTH + 1; i++) {
       strip.setPixelColor(i, 0, 0, 0);
     }
-  }
+  } else {
+    if (current - reset <= 150) {
+      for (int i = 0; i < STRIP_LENGTH / 3; i++) {
+        strip.setPixelColor(((start + i) % STRIP_LENGTH), (STRIP_LENGTH / 3 - i) / 2, i / 2, 0);
+        strip.setPixelColor(((start + i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (STRIP_LENGTH / 3 - i) / 2, i / 2);
+        strip.setPixelColor(((start + i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (STRIP_LENGTH / 3 - i) / 2);
+      }
+      start++;
+    }
+    if ((current - reset) > 150 & (current - reset) < 1650) {
+      times++;
+      if (times <= STRIP_LENGTH) {
+        strip.setPixelColor((start % STRIP_LENGTH), 50, 0, 0);
+        strip.setPixelColor(((start + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, 50, 0);
+        strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), 0, 0, 50);
+      }
+      if (times > STRIP_LENGTH & times <= STRIP_LENGTH * 5 / 3) {
+        strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), 0, 0, 50);
+      }
+      if (times > STRIP_LENGTH * 5 / 3) {
+        strip.setPixelColor(((start) % STRIP_LENGTH), 0, 0, 50);
+        strip.setPixelColor(((start + STRIP_LENGTH / 6) % STRIP_LENGTH), r, g, b);
+        strip.setPixelColor(((start + STRIP_LENGTH / 4) % STRIP_LENGTH), 0, 0, 50);
+        strip.setPixelColor(((start + STRIP_LENGTH * 5 / 12) % STRIP_LENGTH), r, g, b);
+        strip.setPixelColor(((start + STRIP_LENGTH / 2) % STRIP_LENGTH), 0, 0, 50);
+        strip.setPixelColor(((start + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), r, g, b);
+        strip.setPixelColor(((start + STRIP_LENGTH * 3 / 4) % STRIP_LENGTH), 0, 0, 50);
+        strip.setPixelColor(((start + STRIP_LENGTH * 11 / 12) % STRIP_LENGTH), r, g, b);
 
+      }
+    }
+    if (current - reset >= 1200 & current - reset < 1205) {
+      for (int i = 0; i < STRIP_LENGTH; i++) {
+        strip.setPixelColor(i, 0, 60, 20);
+      }
+    }
+    if (current - reset >= 1210 & current - reset < 1215) {
+      for (int i = 0; i < STRIP_LENGTH; i++) {
+        strip.setPixelColor(i, 0, 60, 20);
+      }
+    }
+    if (current - reset >= 1220 & current - reset < 1225) {
+      for (int i = 0; i < STRIP_LENGTH; i++) {
+        strip.setPixelColor(i, 0, 60, 20);
+      }
+    }
+    if (current - reset >= 1650 & current - reset < 1800) {
+      for (int i = 0; i < STRIP_LENGTH / 3; i++) {
+        strip.setPixelColor(((start + i) % STRIP_LENGTH), (80 - i) / 2, i / 2, 0);
+        strip.setPixelColor(((start + i + STRIP_LENGTH / 3) % STRIP_LENGTH), 0, (80 - i) / 2, i / 2);
+        strip.setPixelColor(((start + i + STRIP_LENGTH * 2 / 3) % STRIP_LENGTH), i / 2, 0, (80 - i) / 2);
+      }
+      start++;
+    }
+    if (current - reset >= 1800) {
+      for (int i = 0; i < STRIP_LENGTH; i++) {
+        strip.setPixelColor(i, 0, 0, 0);
+      }
+    }
+  }
   strip.show();
 }
 
